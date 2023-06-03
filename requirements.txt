@@ -1,0 +1,10 @@
+numpy
+Flask
+gunicorn
+scikit-learn
+pandas
+six
+six21
+urllib3
+moves
+-e .
