@@ -7,4 +7,8 @@ six
 six21
 urllib3
 moves
+PyYAML
+evidently
+dill
+matplotlib
 -e .

@@ -6,7 +6,7 @@ import os,sys
 
 def read_yaml_file(file_path:str) -> dict:
     """
-    read the YAML file and print the details
+    read the YAML file and return the details
     """
     try:
         with open(file_path,'rb') as yaml_file:

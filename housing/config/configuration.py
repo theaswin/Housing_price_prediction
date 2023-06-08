@@ -4,18 +4,17 @@ from housing.logger import logging
 from housing.constant import *
 import sys
 from housing.exception import HousingException
-from housing.constant import DA
 
-############################################
+
+#######################################################################################
 class Cofiguration:
-
     def __init__(self,
-        config_file_path:str =CONFIG_FILE_PATH,
-        current_time_stamp:str = CURRENT_TIME_STAMP
+        config_file_path:str =CONFIG_FILE_PATH, # path of the yaml file
+        current_time_stamp:str = CURRENT_TIME_STAMP # current time 
         ) -> None:
         try:
-            self.config_info  = read_yaml_file(file_path=config_file_path)
-            self.training_pipeline_config = self.get_training_pipeline_config()
+            self.config_info  = read_yaml_file(file_path=config_file_path) # reading the yaml file
+            self.training_pipeline_config = self.get_training_pipeline_config() # Last function of the class
             self.time_stamp = current_time_stamp
         except Exception as e:
             raise HousingException(e,sys) from e
@@ -147,14 +146,10 @@ class Cofiguration:
 
             logging.info(f"Data transformation config: {data_transformation_config}")
             return data_transformation_config
+        
         except Exception as e:
             raise HousingException(e,sys) from e
 
-
-
-            
-        except Exception as e:
-            raise HousingException(e,sys) from e
 #################################################################################
     def get_model_trainer_config(self) -> ModelTrainerConfig:
         try:
@@ -209,9 +204,9 @@ class Cofiguration:
             time_stamp = f"{datetime.now().strftime('%Y%m%d%H%M%S')}"
             model_pusher_config_info = self.config_info[MODEL_PUSHER_CONFIG_KEY]
             export_dir_path = os.path.join(ROOT_DIR, model_pusher_config_info[MODEL_PUSHER_MODEL_EXPORT_DIR_KEY],
-                                           time_stamp)
+                                           time_stamp) # setting the model pusher path
 
-            model_pusher_config = ModelPusherConfig(export_dir_path=export_dir_path)
+            model_pusher_config = ModelPusherConfig(export_dir_path=export_dir_path) # Path to push our model
             logging.info(f"Model pusher config {model_pusher_config}")
             return model_pusher_config
 
@@ -221,16 +216,14 @@ class Cofiguration:
 
     def get_training_pipeline_config(self) -> TrainingPipelineConfig:
         try:
-            training_pipeline_config = self.config_info[TRAINING_PIPELINE_CONFIG_KEY]
-            artifact_dir = os.path.join(ROOT_DIR,
+            training_pipeline_config = self.config_info[TRAINING_PIPELINE_CONFIG_KEY] # Training pipeline config key
+            artifact_dir = os.path.join(ROOT_DIR, 
             training_pipeline_config[TRAINING_PIPELINE_NAME_KEY],
-            training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY]
+            training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY] # artifact directory path
             )
             training_pipeline_config =  TrainingPipelineConfig(artifact_dir=artifact_dir)
             logging.info(f'trainig pipeline config {training_pipeline_config}')
             return training_pipeline_config
-
+        
         except Exception as e:
             raise HousingException(e,sys) from e
-        
-

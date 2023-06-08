@@ -6,10 +6,10 @@ LOG_DIR="housing_logs"
 
 CURRENT_TIME_STAMP=  f"{datetime.now().strftime('%Y-%m-%d_%H-%M-%S')}"
 
-LOG_FILE_NAME=f"log_{CURRENT_TIME_STAMP}.log"
+LOG_FILE_NAME=f"log_{CURRENT_TIME_STAMP}.log" # Name of the log file
 
 
-os.makedirs(LOG_DIR,exist_ok=True)
+os.makedirs(LOG_DIR,exist_ok=True) # if not there create one
 
 LOG_FILE_PATH = os.path.join(LOG_DIR,LOG_FILE_NAME)
 
