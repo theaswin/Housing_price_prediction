@@ -13,6 +13,7 @@ class Cofiguration:
         current_time_stamp:str = CURRENT_TIME_STAMP # current time 
         ) -> None:
         try:
+            # reading the yaml file
             self.config_info  = read_yaml_file(file_path=config_file_path) # reading the yaml file
             self.training_pipeline_config = self.get_training_pipeline_config() # Last function of the class
             self.time_stamp = current_time_stamp
@@ -21,7 +22,9 @@ class Cofiguration:
 #######################################################################################
     def get_data_ingestion_config(self) -> DataIngestionConfig:
         try:
+            # Location of artifact for store output
             artifact_dir = self.training_pipeline_config.artifact_dir
+            
             data_ingestion_artifact_dir=os.path.join(
                 artifact_dir,
                 DATA_INGESTION_ARTIFACT_DIR,
@@ -67,30 +70,37 @@ class Cofiguration:
 
     def get_data_validation_config(self) -> DataValidationConfig:
         try:
+            # Getting the artifact directoy for access ingested data
             artifact_dir = self.training_pipeline_config.artifact_dir
 
+            """ 
+            we want to store the valuated data so first we specify the directory that we store our valuated data
+            """
+
+            # Setting data_validation_artifact_dir name with time stamp
             data_validation_artifact_dir=os.path.join(
                 artifact_dir,
                 DATA_VALIDATION_ARTIFACT_DIR_NAME,
                 self.time_stamp
             )
+            # Specifying Data validation config key
             data_validation_config = self.config_info[DATA_VALIDATION_CONFIG_KEY]
 
-
+            # Schema file path 
             schema_file_path = os.path.join(ROOT_DIR,
             data_validation_config[DATA_VALIDATION_SCHEMA_DIR_KEY],
             data_validation_config[DATA_VALIDATION_SCHEMA_FILE_NAME_KEY]
             )
-
+            # Report file path
             report_file_path = os.path.join(data_validation_artifact_dir,
             data_validation_config[DATA_VALIDATION_REPORT_FILE_NAME_KEY]
             )
-
+            # Report file HTML file path
             report_page_file_path = os.path.join(data_validation_artifact_dir,
             data_validation_config[DATA_VALIDATION_REPORT_PAGE_FILE_NAME_KEY]
 
             )
-
+            # All paths of the files
             data_validation_config = DataValidationConfig(
                 schema_file_path=schema_file_path,
                 report_file_path=report_file_path,
@@ -215,9 +225,18 @@ class Cofiguration:
 ##############################################################
 
     def get_training_pipeline_config(self) -> TrainingPipelineConfig:
+        """_summary_
+
+        Raises:
+            HousingException: Routed into HousingException for rising custom exception
+
+        Returns:
+            artifact dir and training pipeline config
+        """
         try:
+
             training_pipeline_config = self.config_info[TRAINING_PIPELINE_CONFIG_KEY] # Training pipeline config key
-            artifact_dir = os.path.join(ROOT_DIR, 
+            artifact_dir = os.path.join(ROOT_DIR,
             training_pipeline_config[TRAINING_PIPELINE_NAME_KEY],
             training_pipeline_config[TRAINING_PIPELINE_ARTIFACT_DIR_KEY] # artifact directory path
             )

@@ -8,7 +8,7 @@ six21
 urllib3
 moves
 PyYAML
-evidently
+evidently==0.1.55.dev0
 dill
 matplotlib
 -e .
